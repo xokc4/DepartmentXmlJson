@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.Xml.Linq;
 
 
+
 namespace DepartmentXmlJson
 {
     class Program
@@ -17,10 +18,12 @@ namespace DepartmentXmlJson
         {
             string path = @"C:\Новая папка\serealize.xml";// путь к папе
             Beginning(path);// начала работы метода
+
             Console.ReadKey();
         }
         public static void Beginning(string path)// начало работы программы
         {
+            
             char choice = 'д';
             do
             {
@@ -49,7 +52,7 @@ namespace DepartmentXmlJson
         {
             List<Department> departments = new List<Department>();//создание листа с департаментами
             List<Worker> workers = new List<Worker>();// создания листа с работниками
-
+            List<Сompany> сompanies = new List<Сompany>();
 
             Random random = new Random(); // рандомайзер
             Console.WriteLine("Введите названия департамента");
@@ -76,33 +79,40 @@ namespace DepartmentXmlJson
 
                 });
             }
+            Сompany сompany = new Сompany()
+            {
+                departments = departments,
+                workers = workers,
+            };
+
+
             Console.WriteLine("варианты записи департаментов: в Xml варианте - 1, в Json варианте - 2  ");
             switch (Console.ReadLine())// условие по создания файла Xml или Json
             {
                 case "1":
-                    SerializeXml(departments, workers, path);
+                    SerializeXml(сompanies, path);
                     break;
                 case "2":
-                    serializeJson(path, departments);
+                    serializeJson(path, сompanies);
                     break;
                 default:
                     Console.WriteLine("пока");
                     break;
             }
         }
-        public static void SerializeXml(List<Department> departments1, List<Worker> workers, string path)// сериализация в Xml
+        public static void SerializeXml(List<Сompany> сompanies, string path)// сериализация в Xml
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Department>));// создания  сериализация в Xml
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Сompany>));// создания  сериализация в Xml
 
             Stream stream = new FileStream(path, FileMode.Create, FileAccess.Write);// создания потока
 
-            xmlSerializer.Serialize(stream, departments1);// запуск сериализации
+            xmlSerializer.Serialize(stream, сompanies);// запуск сериализации
 
             stream.Close();// закрытие потока
         }
-        public static void serializeJson(string path, List<Department> departments)// сериализации в Json
+        public static void serializeJson(string path, List<Сompany> сompanies)// сериализации в Json
         {
-            string json = JsonConvert.SerializeObject(departments);// создания сериализации
+            string json = JsonConvert.SerializeObject(сompanies);// создания сериализации
             File.WriteAllText(@"C:\Новая папка\serealize.Json", json);// запись
 
         }
@@ -123,7 +133,7 @@ namespace DepartmentXmlJson
         public List<Department> DeserializeJson()
         {
             List<Department> departments = new List<Department>();
-            string json = File.ReadAllText(@"C:\Новая папка\serealize.Json");// открытие папки
+            string json = File.ReadAllText(@"\serealize.Json");// открытие папки
             departments = JsonConvert.DeserializeObject<List<Department>>(json);//десериализация
             return departments;// вывод листа
         }
@@ -141,7 +151,7 @@ namespace DepartmentXmlJson
 
             foreach (var i in col)// чтение файла
             {
-                Console.WriteLine(i.Element("DepartmentName"));// просмотр имени департамента 
+                Console.WriteLine(i.Element("DepartmentName"));// просмотр имени департамента  
             }
         }
     }
