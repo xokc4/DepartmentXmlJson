@@ -18,9 +18,9 @@ namespace DepartmentXmlJson
             this.workers = workers;
 
         }
-        string Print()
+        public string Print()
         {
-            return $"{departments}  ";
+            return $"{departments} {workers} ";
         }
     }
 }

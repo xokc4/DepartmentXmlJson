@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using System.Xml.Linq;
-
-
+using System.Xml;
 
 namespace DepartmentXmlJson
 {
@@ -23,7 +22,7 @@ namespace DepartmentXmlJson
         }
         public static void Beginning(string path)// начало работы программы
         {
-            
+            Console.WriteLine("Напишите 1 чтобы создать департамент, напишите 2 чтобы удалить департамент, напишите 3 чтобы добавить департамент");
             char choice = 'д';
             do
             {
@@ -52,7 +51,7 @@ namespace DepartmentXmlJson
         {
             List<Department> departments = new List<Department>();//создание листа с департаментами
             List<Worker> workers = new List<Worker>();// создания листа с работниками
-            List<Сompany> сompanies = new List<Сompany>();
+            List<Сompany> сompany = new List<Сompany>();
 
             Random random = new Random(); // рандомайзер
             Console.WriteLine("Введите названия департамента");
@@ -79,40 +78,40 @@ namespace DepartmentXmlJson
 
                 });
             }
-            Сompany сompany = new Сompany()
+            сompany.Add(new Сompany()
             {
                 departments = departments,
-                workers = workers,
-            };
+                workers = workers
+            });
 
 
             Console.WriteLine("варианты записи департаментов: в Xml варианте - 1, в Json варианте - 2  ");
             switch (Console.ReadLine())// условие по создания файла Xml или Json
             {
                 case "1":
-                    SerializeXml(сompanies, path);
+                    SerializeXml(сompany, path);
                     break;
                 case "2":
-                    serializeJson(path, сompanies);
+                    serializeJson(path, сompany);
                     break;
                 default:
                     Console.WriteLine("пока");
                     break;
             }
         }
-        public static void SerializeXml(List<Сompany> сompanies, string path)// сериализация в Xml
+        public static void SerializeXml(List<Сompany> сompany, string path)// сериализация в Xml
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Сompany>));// создания  сериализация в Xml
 
             Stream stream = new FileStream(path, FileMode.Create, FileAccess.Write);// создания потока
 
-            xmlSerializer.Serialize(stream, сompanies);// запуск сериализации
+            xmlSerializer.Serialize(stream, сompany);// запуск сериализации
 
             stream.Close();// закрытие потока
         }
-        public static void serializeJson(string path, List<Сompany> сompanies)// сериализации в Json
+        public static void serializeJson(string path, List<Сompany> сompany)// сериализации в Json
         {
-            string json = JsonConvert.SerializeObject(сompanies);// создания сериализации
+            string json = JsonConvert.SerializeObject(сompany);// создания сериализации
             File.WriteAllText(@"C:\Новая папка\serealize.Json", json);// запись
 
         }
@@ -136,23 +135,29 @@ namespace DepartmentXmlJson
             string json = File.ReadAllText(@"\serealize.Json");// открытие папки
             departments = JsonConvert.DeserializeObject<List<Department>>(json);//десериализация
             return departments;// вывод листа
-        }
+        }//десериализации Json
         public static void DeleteWorkerDepartament(string path)// удаление департамента и сотрудника 
         {
+           
             string xml = File.ReadAllText(path);// открытие файла
-                               
+
             var col = XDocument.Parse(xml)//чтение файла
                                .Descendants("Department")
                                .ToList();
 
             Console.WriteLine("ведите имя департамента");
-            string keyword = Console.ReadLine();// имя по которому будет находиться департамент
-
-
-            foreach (var i in col)// чтение файла
+            string name = Console.ReadLine();
+            foreach (var i in col)
             {
-                Console.WriteLine(i.Element("DepartmentName"));// просмотр имени департамента  
+                Console.WriteLine(i);
+                if (name != null)
+                {
+                    i.Remove();
+
+                }
             }
+
+
         }
     }
 
