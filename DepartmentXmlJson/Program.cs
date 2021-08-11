@@ -12,7 +12,7 @@ using System.Xml;
 namespace DepartmentXmlJson
 {
     class Program
-    {
+    { 
         static void Main(string[] args)
         {
             string path = @"C:\Новая папка\serealize.xml";// путь к папе
@@ -35,7 +35,7 @@ namespace DepartmentXmlJson
                         DeleteWorkerDepartament(path);
                         break;
                     case "3":
-
+                        addroc(path);
                         break;
                     default:
                         Console.WriteLine("пока");
@@ -115,19 +115,24 @@ namespace DepartmentXmlJson
             File.WriteAllText(@"C:\Новая папка\serealize.Json", json);// запись
 
         }
-        public List<Department> DeserializeXml(string path)// десериализации Xml
+        public List<Сompany>  DeserializeXml(string path)// десериализации Xml
         {
-            List<Department> departments = new List<Department>();
+ 
+            List<Сompany> сompany = new List<Сompany>();
+
+
             // создания сериализации для листа
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Department>));
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Сompany>));
 
             Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read);// создания потока
 
-            departments = xmlSerializer.Deserialize(stream) as List<Department>;//десериализация
+            сompany = xmlSerializer.Deserialize(stream) as List<Сompany>;//десериализация
 
             stream.Close();// закрытие потока
 
-            return departments;//вывод листа
+            return сompany;
+           
+
         }
         public List<Department> DeserializeJson()
         {
@@ -158,6 +163,14 @@ namespace DepartmentXmlJson
             }
 
 
+        }
+        public static void addroc(string path)
+        {
+            List<Сompany> сompany = DeserializeXml(path);
+            
+          
+
+          
         }
     }
 
