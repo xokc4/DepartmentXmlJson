@@ -8,34 +8,37 @@ using System.Xml.Serialization;
 using Newtonsoft.Json;
 using System.Xml.Linq;
 using System.Xml;
+using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace DepartmentXmlJson
 {
     class Program
-    { 
+    {
         static void Main(string[] args)
         {
-            string path = @"C:\Новая папка\serealize.xml";// путь к папе
-            Beginning(path);// начала работы метода
+            string path = @"C:\Новая папка\serealize.xml";// путь к папке xml
+            string psth = @"C:\Новая папка\serealize.Json";// путь к папке Json
+            Beginning(path, psth);// начала работы метода
 
             Console.ReadKey();
         }
-        public static void Beginning(string path)// начало работы программы
+        public static void Beginning(string path, string psth)// начало работы программы 
         {
             Console.WriteLine("Напишите 1 чтобы создать департамент, напишите 2 чтобы удалить департамент, напишите 3 чтобы добавить департамент");
-            char choice = 'д';
+            char choice = 'д';//переменная для бесконечного цикла
             do
             {
-                switch (Console.ReadLine())
+                switch (Console.ReadLine())// выбор того что тебе нужно
                 {
                     case "1":
-                        AddendumXML(path);
+                        AddendumXML(path);// добавление сомпании
                         break;
                     case "2":
-                        DeleteWorkerDepartament(path);
+                        DeleteChoice(path, psth);// выбор удаление в Xml, Json
                         break;
                     case "3":
-                        addroc(path);
+                        addroc(path, psth);// добавление уже имеющейся компании 
                         break;
                     default:
                         Console.WriteLine("пока");
@@ -43,7 +46,8 @@ namespace DepartmentXmlJson
 
 
                 }
-                choice = Console.ReadKey(true).KeyChar;
+                Console.WriteLine("если закончили напишите н если нет то д");
+                choice = Console.ReadKey(true).KeyChar;// условие по закрытию  цикла
             }
             while (char.ToLower(choice) == 'д');
         }
@@ -55,9 +59,9 @@ namespace DepartmentXmlJson
 
             Random random = new Random(); // рандомайзер
             Console.WriteLine("Введите названия департамента");
-            string DepartmentName = Console.ReadLine();
+            string DepartmentName = Console.ReadLine();// название департамента
             Console.WriteLine("Напишите количество работников");
-            uint Quantity = Convert.ToUInt32(Console.ReadLine());
+            uint Quantity = Convert.ToUInt32(Console.ReadLine());// количество сотрудников
 
             departments.Add(new Department()// создания департамента
             {
@@ -82,17 +86,15 @@ namespace DepartmentXmlJson
             {
                 departments = departments,
                 workers = workers
-            });
-
-
-            Console.WriteLine("варианты записи департаментов: в Xml варианте - 1, в Json варианте - 2  ");
+            });// создание компании
+            Console.WriteLine("варианты записи департаментов: в Xml варианте - 1, в Json варианте - 2  ");// вывод на консоль с выбором
             switch (Console.ReadLine())// условие по создания файла Xml или Json
             {
                 case "1":
-                    SerializeXml(сompany, path);
+                    SerializeXml(сompany, path);//метод по сериализация в Xml
                     break;
                 case "2":
-                    serializeJson(path, сompany);
+                    serializeJson(path, сompany);//метод по сериализации в Json
                     break;
                 default:
                     Console.WriteLine("пока");
@@ -115,11 +117,10 @@ namespace DepartmentXmlJson
             File.WriteAllText(@"C:\Новая папка\serealize.Json", json);// запись
 
         }
-        public List<Сompany>  DeserializeXml(string path)// десериализации Xml
+        public static List<Сompany> DeserializeXml(string path)// десериализации Xml
         {
- 
-            List<Сompany> сompany = new List<Сompany>();
 
+            List<Сompany> сompany = new List<Сompany>();
 
             // создания сериализации для листа
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Сompany>));
@@ -131,47 +132,134 @@ namespace DepartmentXmlJson
             stream.Close();// закрытие потока
 
             return сompany;
-           
+
 
         }
-        public List<Department> DeserializeJson()
+        public static List<Сompany> DeserializeJson(string psth)//десериализации Json
         {
-            List<Department> departments = new List<Department>();
-            string json = File.ReadAllText(@"\serealize.Json");// открытие папки
-            departments = JsonConvert.DeserializeObject<List<Department>>(json);//десериализация
-            return departments;// вывод листа
-        }//десериализации Json
-        public static void DeleteWorkerDepartament(string path)// удаление департамента и сотрудника 
+            List<Сompany> сompanies = new List<Сompany>();
+            string json = File.ReadAllText(psth);// открытие папки
+            сompanies = JsonConvert.DeserializeObject<List<Сompany>>(json);//десериализация
+            return сompanies;// вывод листа
+        }
+        public static void DeleteWorkerDepartamentXml(string path)// удаление департамента и сотрудника 
         {
-           
-            string xml = File.ReadAllText(path);// открытие файла
+            Console.WriteLine("если хотите удалить  департаменты ");
 
-            var col = XDocument.Parse(xml)//чтение файла
-                               .Descendants("Department")
-                               .ToList();
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load(path);
+            XmlElement xRoot = xDoc.DocumentElement;
+            XmlNode firstNode = xRoot.FirstChild;
+            Console.WriteLine("");
 
-            Console.WriteLine("ведите имя департамента");
-            string name = Console.ReadLine();
-            foreach (var i in col)
+            switch (Convert.ToInt32(Console.ReadLine()))
             {
-                Console.WriteLine(i);
-                if (name != null)
-                {
-                    i.Remove();
+                case 1:
 
-                }
+                    break;
+                case 2:
+                    xRoot.RemoveAll();
+                    break;
+                default:
+                    Console.WriteLine("вы нажали другую кнопку");
+                    break;
+            }
+            xDoc.Save(path);
+
+
+        }
+        public static void addroc(string path, string psth)// добавление сотрудника и департамента, в уже имеющийся департамент
+        {
+            List<Сompany> company = choice(path, psth);// метод по выбору файла 
+
+            List<Department> departments = new List<Department>();//создание листа с департаментами
+            List<Worker> workers = new List<Worker>();// создания листа с работниками
+            Random random = new Random(); // рандомайзер
+            Console.WriteLine("Введите названия департамента");
+            string DepartmentName = Console.ReadLine();// название департамента
+            Console.WriteLine("Напишите количество работников");
+            uint Quantity = Convert.ToUInt32(Console.ReadLine());// количество сотрудников
+
+            departments.Add(new Department()// создания департамента
+            {
+                DepartmentName = DepartmentName,
+                Date = DateTime.Now,
+                quantity = Quantity
+            });
+            for (int i = 1; i <= Quantity; i++)//создания цикла работников
+            {
+                workers.Add(new Worker()//создания работника
+                {
+                    Name = $"name_{i}",
+                    Surname = $"Фамилия_{i}",
+                    Age = random.Next(18, 45),
+                    DepartmentWorks = DepartmentName,
+                    Salary = random.Next(18000, 200000),
+                    Id = i
+
+                });
+            }
+            company.Add(new Сompany()
+            {
+                departments = departments,
+                workers = workers
+            });// создание компании
+            Console.WriteLine("варианты записи департаментов: в Xml варианте - 1, в Json варианте - 2  ");// вывод на консоль с выбором
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    SerializeXml(company, path);//метод по сериализация в Xml
+                    break;
+                case "2":
+                    serializeJson(path, company);//метод по сериализации в Json
+                    break;
+                default:
+                    Console.WriteLine("пока");
+                    break;
+            }// условие по создания файла Xml или Json
+        }
+        public static List<Сompany> choice(string path, string psth)// выбор откуда нужно брать информацию о компании
+        {
+            // с файла xml или c файла  json
+            Console.WriteLine("напишите что нужно серелизовать. 1 из xml, а 2 Json");
+            switch (Console.ReadLine())//цикл для выбора
+            {
+                case "1":
+                    List<Сompany> companies = DeserializeXml(path);// метод для  xml
+                    return companies;
+                case "2":
+                    List<Сompany> company = DeserializeJson(psth);// метод для  json
+                    return company;
+                default:
+                    return null;
             }
 
-
         }
-        public static void addroc(string path)
+        public static void DeleteworkerDepartamentJson(string psth)
         {
-            List<Сompany> сompany = DeserializeXml(path);
-            
-          
+            List<Сompany> company = DeserializeJson(psth);
+            foreach (var item in company)
+            {
+                Console.WriteLine($"{item.workers}");
+            }
 
-          
         }
-    }
+        public static void DeleteChoice(string path, string psth)
+        {
+            Console.WriteLine("1 для удаление департамента в xml файле, 2 для удаление департамента в Json файле");
+            switch (Console.ReadLine())//цикл для выбора
+            {
+                case "1":
+                    DeleteWorkerDepartamentXml(path);
+                    break;
+                case "2":
+                    DeleteworkerDepartamentJson(psth);
+                    break;
+                default:
+                    Console.WriteLine("Вы ввели не правильное числа");
+                    break;
+            }
+        }
 
+    }
 }

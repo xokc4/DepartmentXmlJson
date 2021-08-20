@@ -12,6 +12,7 @@ namespace DepartmentXmlJson
 
        public List<Worker> workers;
 
+
         public void Company (List<Worker> workers, List<Department> departments)
         {
             this.departments = departments;
