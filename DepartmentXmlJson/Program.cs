@@ -144,6 +144,8 @@ namespace DepartmentXmlJson
         }
         public static void DeleteWorkerDepartamentXml(string path)// удаление департамента и сотрудника 
         {
+
+
             Console.WriteLine("если хотите удалить  департаменты ");
 
             XmlDocument xDoc = new XmlDocument();
@@ -238,9 +240,11 @@ namespace DepartmentXmlJson
         public static void DeleteworkerDepartamentJson(string psth)
         {
             List<Сompany> company = DeserializeJson(psth);
+            string json = File.ReadAllText(psth);
+            company = JsonConvert.DeserializeObject<List<Сompany>>(psth); 
             foreach (var item in company)
             {
-                Console.WriteLine($"{item.workers}");
+                Console.WriteLine($"{item}");
             }
 
         }
