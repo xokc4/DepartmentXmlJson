@@ -255,12 +255,16 @@ namespace DepartmentXmlJson
                     flag = true;
                     index++;
                 }
+                else
+                {
+                    index++;
+                }
                 
             }
             
             if(flag == false)
             {
-                Console.WriteLine("иди в жопу");
+                Console.WriteLine("нет такого департамента");
             }
             company.RemoveAt(index);
 
