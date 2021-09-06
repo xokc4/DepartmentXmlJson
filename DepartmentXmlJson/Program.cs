@@ -240,13 +240,31 @@ namespace DepartmentXmlJson
         public static void DeleteworkerDepartamentJson(string psth)
         {
             List<Сompany> company = DeserializeJson(psth);
-            string json = File.ReadAllText(psth);
-            company = JsonConvert.DeserializeObject<List<Сompany>>(psth); 
+           string  NAme =  Console.ReadLine();
+            Сompany сompanyOne = null;
+            
+            bool flag = false;
+            
+            int index =-1;
             foreach (var item in company)
             {
-                Console.WriteLine($"{item}");
+                var s = item.departments.Where(x => x.DepartmentName == NAme).Count();
+                if(s !=0)
+                {
+                    сompanyOne = item;
+                    flag = true;
+                    index++;
+                }
+                
             }
+            
+            if(flag == false)
+            {
+                Console.WriteLine("иди в жопу");
+            }
+            company.RemoveAt(index);
 
+            serializeJson(psth, company);
         }
         public static void DeleteChoice(string path, string psth)
         {
