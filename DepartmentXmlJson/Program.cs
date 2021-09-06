@@ -61,13 +61,13 @@ namespace DepartmentXmlJson
             Console.WriteLine("Введите названия департамента");
             string DepartmentName = Console.ReadLine();// название департамента
             Console.WriteLine("Напишите количество работников");
-            uint Quantity = Convert.ToUInt32(Console.ReadLine());// количество сотрудников
+            int Quantity = Convert.ToInt32(Console.ReadLine());// количество сотрудников
 
             departments.Add(new Department()// создания департамента
             {
                 DepartmentName = DepartmentName,
                 Date = DateTime.Now,
-                quantity = Quantity
+                Quantity = Quantity
             });
             for (int i = 1; i <= Quantity; i++)//создания цикла работников
             {
@@ -84,8 +84,8 @@ namespace DepartmentXmlJson
             }
             сompany.Add(new Сompany()
             {
-                departments = departments,
-                workers = workers
+                Departments = departments,
+                Workers = workers
             });// создание компании
             Console.WriteLine("варианты записи департаментов: в Xml варианте - 1, в Json варианте - 2  ");// вывод на консоль с выбором
             switch (Console.ReadLine())// условие по создания файла Xml или Json
@@ -180,13 +180,13 @@ namespace DepartmentXmlJson
             Console.WriteLine("Введите названия департамента");
             string DepartmentName = Console.ReadLine();// название департамента
             Console.WriteLine("Напишите количество работников");
-            uint Quantity = Convert.ToUInt32(Console.ReadLine());// количество сотрудников
+            int Quantity = Convert.ToInt32(Console.ReadLine());// количество сотрудников
 
             departments.Add(new Department()// создания департамента
             {
                 DepartmentName = DepartmentName,
                 Date = DateTime.Now,
-                quantity = Quantity
+                Quantity = Quantity
             });
             for (int i = 1; i <= Quantity; i++)//создания цикла работников
             {
@@ -203,8 +203,8 @@ namespace DepartmentXmlJson
             }
             company.Add(new Сompany()
             {
-                departments = departments,
-                workers = workers
+                Departments = departments,
+                Workers = workers
             });// создание компании
             Console.WriteLine("варианты записи департаментов: в Xml варианте - 1, в Json варианте - 2  ");// вывод на консоль с выбором
             switch (Console.ReadLine())
@@ -248,7 +248,7 @@ namespace DepartmentXmlJson
             int index =-1;
             foreach (var item in company)
             {
-                var s = item.departments.Where(x => x.DepartmentName == NAme).Count();
+                var s = item.Departments.Where(x => x.DepartmentName == NAme).Count();
                 if(s !=0)
                 {
                     сompanyOne = item;

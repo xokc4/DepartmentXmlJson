@@ -8,22 +8,18 @@ namespace DepartmentXmlJson
 {
    public class Department
     {
-        public string DepartmentName;// названия департамента
+        public string DepartmentName { get; set; }// названия департамента
 
-        public DateTime Date;// дата создания
+        public DateTime Date { get; set; }// дата создания
 
-        public uint quantity;// количество сотрудников
+        public int Quantity { get; set; }// количество сотрудников
 
-        public void Departament(string DepartmentName, DateTime Date, uint quantity)// метод по выводу департамента
-        {
-            this.DepartmentName = DepartmentName;
-            this.Date = Date;
-            this.quantity = quantity;
-        }
+        public void departament(string departmentName, DateTime date, int quantity) => 
+            (DepartmentName, Date, Quantity) = (departmentName, date, quantity);
 
-        public string Print()// вывод инвормациии
-        {
-            return $"Имя: {DepartmentName} дата: {Date} количество людей: {quantity}";
-        }
+        // вывод инвормациии
+        public new string ToString => $"Имя: {DepartmentName} дата: {Date} количество людей: {Quantity}";
+
+        
     }
 }

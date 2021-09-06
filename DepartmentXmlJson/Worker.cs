@@ -8,30 +8,22 @@ namespace DepartmentXmlJson
 {
    public class Worker
     {
-        public string Name;// имя
+        public string Name { get; set; }// имя
 
-        public string Surname;// фамилия
+        public string Surname { get; set; }// фамилия
 
-        public int Age;// возраст
+        public int Age { get; set; }// возраст
 
-        public int Id; //айди
+        public int Id { get; set; } //айди
 
-        public int Salary; // зарплата
+        public int Salary { get; set; } // зарплата
 
-        public string DepartmentWorks; //департамент в котором работает
+        public string DepartmentWorks { get; set; } //департамент в котором работает
 
-        public void works(string Name, string Surname, int Age, int Id, int Salary, string DepartmentWorks)// метод по выводу работника
-        {
-            this.Name = Name;
-            this.Surname = Surname;
-            this.Age = Age;
-            this.Id = Id;
-            this.Salary = Salary;
-            this.DepartmentWorks = DepartmentWorks;
-        }
-        public string  Print()// вывод на экран 
-            {
-            return $"{this.Id}{this.Name}{this.Surname}{this.Age}{this.Salary}{this.DepartmentWorks}";
-            }
+        public void works(string name, string surname, int age, int id, int salary, string departmentWorks) =>
+            (Name, Surname, Age, Id, Salary, DepartmentWorks) = (name, surname, age, id, salary, departmentWorks);
+        // вывод на экран 
+        public new string ToString => $"{Id}{Name}{Surname}{Age}{Salary}{DepartmentWorks}";
+       
     }
 }

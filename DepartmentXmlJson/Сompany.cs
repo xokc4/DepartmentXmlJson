@@ -8,20 +8,18 @@ namespace DepartmentXmlJson
 {
     public class Сompany
     {
-       public List<Department> departments;
+       public List<Department> Departments { get; set; }
 
-       public List<Worker> workers;
+       public List<Worker> Workers { get; set; }
 
 
         public void Company (List<Worker> workers, List<Department> departments)
         {
-            this.departments = departments;
-            this.workers = workers;
+            Departments = departments;
+            Workers = workers;
 
         }
-        public string Print()
-        {
-            return $"{departments} {workers} ";
-        }
+        public new string ToString => $"{Departments} {Workers} ";
     }
+    
 }
