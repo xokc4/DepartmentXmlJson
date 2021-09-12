@@ -8,21 +8,45 @@ namespace DepartmentXmlJson
 {
    public class Worker
     {
-        public string Name { get; set; }// имя
+        /// <summary>
+        /// имя
+        /// </summary>
+        public string Name { get; set; }
 
-        public string Surname { get; set; }// фамилия
-
-        public int Age { get; set; }// возраст
-
-        public int Id { get; set; } //айди
-
-        public int Salary { get; set; } // зарплата
-
-        public string DepartmentWorks { get; set; } //департамент в котором работает
-
+        /// <summary>
+        /// фамилия
+        /// </summary>
+        public string Surname { get; set; }
+        /// <summary>
+        /// возраст
+        /// </summary>
+        public int Age { get; set; }
+        /// <summary>
+        /// айди
+        /// </summary>
+        public int Id { get; set; }
+        /// <summary>
+        /// зарплата
+        /// </summary>
+        public int Salary { get; set; }
+        /// <summary>
+        /// департамент в котором работает
+        /// </summary>
+        public string DepartmentWorks { get; set; } 
+        /// <summary>
+        /// конструктор работника
+        /// </summary>
+        /// <param name="name">имя</param>
+        /// <param name="surname">фамилия</param>
+        /// <param name="age">возраст</param>
+        /// <param name="id">айди</param>
+        /// <param name="salary">зарплата</param>
+        /// <param name="departmentWorks">имя департамента</param>
         public void works(string name, string surname, int age, int id, int salary, string departmentWorks) =>
             (Name, Surname, Age, Id, Salary, DepartmentWorks) = (name, surname, age, id, salary, departmentWorks);
-        // вывод на экран 
+        /// <summary>
+        /// вывод ниформации ToString
+        /// </summary>
         public new string ToString => $"{Id}{Name}{Surname}{Age}{Salary}{DepartmentWorks}";
        
     }
