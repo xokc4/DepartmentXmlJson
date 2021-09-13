@@ -22,8 +22,8 @@ namespace DepartmentXmlJson
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            string path = @"C:\Новая папка\serealize.xml";// путь к папке xml
-            string psth = @"C:\Новая папка\serealize.Json";// путь к папке Json
+            string path = @"serealize.xml";// путь к папке xml
+            string psth = @"serealize.Json";// путь к папке Json
             Beginning(path, psth);// начала работы метода
 
             Console.ReadKey();
@@ -61,11 +61,16 @@ namespace DepartmentXmlJson
             }
             while (char.ToLower(choice) == 'д');
         }
-        public static void AddendumXML(string path, string psth)// добавление сотрудника и департамента 
+        /// <summary>
+        /// Создается компания с департаментами и сотрудниками
+        /// </summary>
+        /// <param name="path"> путь к файлу xml</param>
+        /// <param name="psth">путь к файлу json</param>
+        public static void AddendumXML(string path, string psth)// добавление департамента 
         {
             List<Department> departments = new List<Department>();//создание листа с департаментами
             List<Worker> workers = new List<Worker>();// создания листа с работниками
-            List<Сompany> сompany = new List<Сompany>();
+            
 
             Random random = new Random(); // рандомайзер
             Console.WriteLine("Введите названия департамента");
@@ -92,6 +97,7 @@ namespace DepartmentXmlJson
 
                 });
             }
+            List<Сompany> сompany = new List<Сompany>();
             сompany.Add(new Сompany()
             {
                 Departments = departments,
@@ -111,7 +117,11 @@ namespace DepartmentXmlJson
                     break;
             }
         }
-
+        /// <summary>
+        /// в существующую компанию добавляется департамент 
+        /// </summary>
+        /// <param name="path">путь к файлу xml</param>
+        /// <param name="psth">путь к файлу json</param>
         public static void addroc(string path, string psth)// добавление сотрудника и департамента, в уже имеющийся департамент
         {
             List<Сompany> company = choice(path, psth);// метод по выбору файла 
@@ -123,31 +133,35 @@ namespace DepartmentXmlJson
             string DepartmentName = Console.ReadLine();// название департамента
             Console.WriteLine("Напишите количество работников");
             int Quantity = Convert.ToInt32(Console.ReadLine());// количество сотрудников
-
-            departments.Add(new Department()// создания департамента
-            {
-                DepartmentName = DepartmentName,
-                Date = DateTime.Now,
-                Quantity = Quantity
-            });
-            for (int i = 1; i <= Quantity; i++)//создания цикла работников
-            {
-                workers.Add(new Worker()//создания работника
+            
+            
+                departments.Add(new Department()// создания департамента
                 {
-                    Name = $"name_{i}",
-                    Surname = $"Фамилия_{i}",
-                    Age = random.Next(18, 45),
-                    DepartmentWorks = DepartmentName,
-                    Salary = random.Next(18000, 200000),
-                    Id = i
-
+                    DepartmentName = DepartmentName,
+                    Date = DateTime.Now,
+                    Quantity = Quantity
                 });
-            }
-            company.Add(new Сompany()
-            {
-                Departments = departments,
-                Workers = workers
-            });// создание компании
+                for (int i = 1; i <= Quantity; i++)//создания цикла работников
+                {
+                    workers.Add(new Worker()//создания работника
+                    {
+                        Name = $"name_{i}",
+                        Surname = $"Фамилия_{i}",
+                        Age = random.Next(18, 45),
+                        DepartmentWorks = DepartmentName,
+                        Salary = random.Next(18000, 200000),
+                        Id = i
+
+                    });
+                }
+                company.Add(new Сompany()
+                {
+                    Departments = departments,
+                    Workers = workers
+                });// создание компании
+
+          
+
             Console.WriteLine("варианты записи департаментов: в Xml варианте - 1, в Json варианте - 2  ");// вывод на консоль с выбором
             switch (Console.ReadLine())
             {
@@ -155,7 +169,7 @@ namespace DepartmentXmlJson
                    WorkingFiles.SerializeXml(company, path);//метод по сериализация в Xml
                     break;
                 case "2":
-                   WorkingFiles.serializeJson(path, company);//метод по сериализации в Json
+                   WorkingFiles.serializeJson(psth, company);//метод по сериализации в Json
                     break;
                 default:
                     Console.WriteLine("пока");
